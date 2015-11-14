@@ -39,6 +39,29 @@ class ExchangeRate extends Model {
 		'exchange_rate_currency',
 	];
 
+	public function convert($to, $value) {
+		$to = $this->getRate($to);
+		return $value * $to->value;
+	}
+
+	public function getRate($name) {
+		if (!isset(self::$static_objects[$name])) {
+			self::$static_objects[$name] = $this->get([
+				'currency' => $name
+			]);
+		}
+
+		return self::$static_objects[$name];
+	}
+
+	public function getAllRates() {
+		if (!isset($this->objects['all_rates'])) {
+			$this->objects['all_rates'] = $this->getMulti([], ['currency' => 'asc']);
+		}
+
+		return $this->objects['all_rates'];
+	}
+
 	public function updateRates() {
 		$module_config = $this->config->moduleConfig('\modules\exchange_rates');
 		$endpoint = $module_config->endpoint;

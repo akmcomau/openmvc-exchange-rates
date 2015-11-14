@@ -9,6 +9,12 @@ $_MODULE = [
 	"controllers" => [
 		"administrator\\ExchangeRates",
 	],
+	"hooks" => [
+		"checkout" => [
+			"getSellPrice" => "classes\\Hooks",
+			"getSellTotal" => "classes\\Hooks",
+		]
+	],
 	"default_config" => [
 		"secret" => "",
 		"endpoint" => "http://apilayer.net/api/",
