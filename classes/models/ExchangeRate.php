@@ -44,6 +44,11 @@ class ExchangeRate extends Model {
 		return $value * $to->value;
 	}
 
+	public function reverse($from, $value) {
+		$from = $this->getRate($from);
+		return $value / $from->value;
+	}
+
 	public function getRate($name) {
 		if (!isset(self::$static_objects[$name])) {
 			self::$static_objects[$name] = $this->get([
